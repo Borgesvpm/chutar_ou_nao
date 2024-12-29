@@ -31,6 +31,7 @@ def simulate_exam(num_questions, marked_questions, cutoff, accuracy, correction_
 
 # Streamlit UI
 st.title("É Apropriado Chutar na Prova?")
+st.markdown("Esse app faz 10 mil simulações para cada estratégia (chute ou não chute) para averiguar qual é a melhor.")
 
 # Inputs
 num_questions = st.number_input(
@@ -123,3 +124,6 @@ if st.button("Simular"):
     )
 
     st.altair_chart(chart, use_container_width=True)
+
+    st.markdown("*P.S. De modo geral, as estratégias de chute possuem a mesma média, porém a estratégia com o maior número de chutes possuem uma variância maior (ou seja, você pode ir muito bem, mas também pode ir muito mal). Por esse motivo, quando o chute é a melhor opção, de modo geral, chutar todas as questões tende a ser a melhor estratégia.*")
+    st.markdown("*Por outro lado, quando você já tem uma performance muito próxima de atingir a nota de corte, não chutar ou chutar pouco tende a ser a melhor estratégia.*")
