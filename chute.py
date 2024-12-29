@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 import altair as alt
 
-def simulate_exam(num_questions, marked_questions, cutoff, accuracy, correction_factor, num_simulations=100000):
+def simulate_exam(num_questions, marked_questions, cutoff, accuracy, correction_factor, num_simulations=10_000):
     # Simulate the performance without guessing
     no_guess_scores = []
     for _ in range(num_simulations):
@@ -20,8 +20,10 @@ def simulate_exam(num_questions, marked_questions, cutoff, accuracy, correction_
 
         for fraction, key in zip([1/3, 2/3, 1], ["1/3", "2/3", "3/3"]):
             guessed_questions = int(unmarked_questions * fraction)
-            guessed_correct = np.random.binomial(guessed_questions, 1 / 2)  
+            guessed_correct = np.random.binomial(guessed_questions, 1 / 2)  # Assuming 4 options per question
             guessed_wrong = guessed_questions - guessed_correct
+
+            # Ensure penalties for incorrect guesses are applied correctly
             score = (correct_answers + guessed_correct) - (guessed_wrong * correction_factor)
             guess_scores[key].append(score)
 
@@ -29,7 +31,6 @@ def simulate_exam(num_questions, marked_questions, cutoff, accuracy, correction_
 
 # Streamlit UI
 st.title("É Apropriado Chutar na Prova?")
-st.markdown("Esse app faz 100 mil simulações para cada estratégia (chute ou não chute) para averiguar qual é a melhor.")
 
 # Inputs
 num_questions = st.number_input(
@@ -122,5 +123,3 @@ if st.button("Simular"):
     )
 
     st.altair_chart(chart, use_container_width=True)
-
-    st.markdown("*P.S. De modo geral, as estratégias de chute possuem a mesma média, porém a estratégia com o maior número de chutes possuem uma variância maior (ou seja, você pode ir muito bem, mas também pode ir muito mal). Por esse motivo, quando o chute é a melhor opção, de modo geral, chutar todas as questões tende a ser a melhor estratégia.*")
