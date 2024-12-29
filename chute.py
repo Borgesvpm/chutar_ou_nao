@@ -20,11 +20,11 @@ def simulate_exam(num_questions, marked_questions, cutoff, accuracy, correction_
 
         for fraction, key in zip([1/3, 2/3, 1], ["1/3", "2/3", "3/3"]):
             guessed_questions = int(unmarked_questions * fraction)
-            guessed_correct = np.random.binomial(guessed_questions, 1 / 2)  # Assuming 4 options per question
+            guessed_correct = np.random.binomial(guessed_questions, 1 / 2)  
             guessed_wrong = guessed_questions - guessed_correct
 
             # Ensure penalties for incorrect guesses are applied correctly
-            score = (correct_answers + guessed_correct) - (guessed_wrong * correction_factor)
+            score = (correct_answers + guessed_correct) - (wrong_answers * correction_factor) - (guessed_wrong * correction_factor)
             guess_scores[key].append(score)
 
     return no_guess_scores, guess_scores
